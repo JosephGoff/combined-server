@@ -47,7 +47,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "50mb" }));
 //app.use('/orders', bodyParser.json());
 //app.use('/products', bodyParser.json());
 //app.use('/properties', bodyParser.json());
@@ -265,7 +265,12 @@ app.use("/properties", propertiesRoutes);
 
 // ReactAIPlayground
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 20 * 1024 * 1024, // 20 MB in bytes
+  },
+});
 
 // Recieve Files
 //const { exec } = require('child_process');
@@ -525,10 +530,7 @@ const s3 = new AWS.S3({
   secretAccessKey: process.env.AWS_SECRET_KEY,
 });
 
-const storage2 = multer.memoryStorage();
-const upload2 = multer({ storage2 });
-
-app.post("/api/upload", upload2.single("file"), async (req, res) => {
+app.post("/api/upload", upload.single("file"), async (req, res) => {
   console.log("Uploading to Database")
   try {
     const blobName = `inspire-connect/${Date.now()}-${req.file.originalname}`;
