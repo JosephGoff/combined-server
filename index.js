@@ -36,7 +36,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:3000', 'https://reactaiplayground.online', 'https://inspireconnect.online'];
+  const allowedOrigins = ['http://localhost:3000', 'https://reactaiplayground.com', 'https://inspireconnect.site'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
