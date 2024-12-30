@@ -2,6 +2,7 @@ import mysql from "mysql2"
 import dotenv from 'dotenv';
 dotenv.config();
 
+
 // export const db = mysql.createConnection({
 //     host: "aws-db2.c9wkcmm26naa.us-east-2.rds.amazonaws.com",
 //     user: "admin",
