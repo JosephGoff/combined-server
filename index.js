@@ -28,7 +28,7 @@ import commentRoutes from "./routes/comments.js";
 import likeRoutes from "./routes/likes.js";
 import storyRoutes from "./routes/stories.js";
 import relationshipRoutes from "./routes/relationships.js";
-import AWS from 'aws-sdk';
+// import AWS from 'aws-sdk';
 
 dotenv.config();
 
@@ -518,41 +518,35 @@ app.post('/gpt-message-editor', async (req, res) => {
 });
 
 
-
-
-
-
-
-
 // Inspire Connect
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_KEY,
-});
+// const s3 = new AWS.S3({
+//   accessKeyId: process.env.AWS_ACCESS_KEY,
+//   secretAccessKey: process.env.AWS_SECRET_KEY,
+// });
 
-app.post("/api/upload", upload.single("file"), async (req, res) => {
-  console.log("Uploading to Database")
-  try {
-    const blobName = `inspire-connect/${Date.now()}-${req.file.originalname}`;
-    const params = {
-      Bucket: 'aws1-bucket1-jg',
-      Key: blobName,
-      Body: req.file.buffer,
-      ContentType: req.file.mimetype,
-      ACL: 'public-read',
-    };
+// app.post("/api/upload", upload.single("file"), async (req, res) => {
+//   console.log("Uploading to Database")
+//   try {
+//     const blobName = `inspire-connect/${Date.now()}-${req.file.originalname}`;
+//     const params = {
+//       Bucket: 'aws1-bucket1-jg',
+//       Key: blobName,
+//       Body: req.file.buffer,
+//       ContentType: req.file.mimetype,
+//       ACL: 'public-read',
+//     };
 
-    await s3.upload(params).promise();
+//     await s3.upload(params).promise();
 
-    const imageUrl = `https://aws1-bucket1-jg.s3.amazonaws.com/${blobName}`;
-    // Store the imageUrl in your database or use it as needed
+//     const imageUrl = `https://aws1-bucket1-jg.s3.amazonaws.com/${blobName}`;
+//     // Store the imageUrl in your database or use it as needed
 
-    res.status(200).json({ imageUrl });
-  } catch (error) {
-    console.error('Error uploading image:', error);
-    res.status(500).json({ error: 'Failed to upload image' });
-  }
-});
+//     res.status(200).json({ imageUrl });
+//   } catch (error) {
+//     console.error('Error uploading image:', error);
+//     res.status(500).json({ error: 'Failed to upload image' });
+//   }
+// });
 
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)

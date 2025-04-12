@@ -7,7 +7,7 @@ import moment from "moment";
 export const register = (req, res) => {
   const q = "SELECT * FROM users WHERE email = ?";
 
-  db.query(q, [req.body.email], (err, data) => {
+  db_social.query(q, [req.body.email], (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length)
       return res.status(409).json({ error: "User already exists!" });
@@ -28,7 +28,7 @@ export const register = (req, res) => {
       req.body.website,
     ];
 
-    db.query(q1, [values1], (err, data) => {
+    db_social.query(q1, [values1], (err, data) => {
       if (err) return res.status(500).json(err);
       const newUserId = data.insertId;
 
@@ -37,12 +37,12 @@ export const register = (req, res) => {
         const values2Reversed = [id, newUserId];
 
         return new Promise((resolve, reject) => {
-          db.query(
+          db_social.query(
             "INSERT INTO relationships(`followerUserId`, `followedUserId`) VALUES (?)",
             [values2],
             (err) => {
               if (err) return reject(err);
-              db.query(
+              db_social.query(
                 "INSERT INTO relationships(`followerUserId`, `followedUserId`) VALUES (?)",
                 [values2Reversed],
                 (err) => {
@@ -64,7 +64,7 @@ export const register = (req, res) => {
         ];
 
         return new Promise((resolve, reject) => {
-          db.query(
+          db_social.query(
             "INSERT INTO messages(`desc`,`createdAt`, `userId`, `receiverId`) VALUES (?)",
             [values3],
             (err) => {
@@ -88,7 +88,6 @@ export const register = (req, res) => {
 
 // Login Function
 export const login = (req, res) => {
-  console.log("Beginning login");
   const q = "SELECT * FROM users WHERE email = ?";
 
   db_social.query(q, [req.body.email], (err, data) => {
